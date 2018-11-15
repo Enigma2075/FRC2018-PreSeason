@@ -1,6 +1,5 @@
 package frc.team2075.Commands;
 
-import com.sun.org.apache.xpath.internal.objects.XBooleanStatic;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team2075.Robot;
