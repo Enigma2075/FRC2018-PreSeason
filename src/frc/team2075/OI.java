@@ -20,7 +20,7 @@ public class OI
     public static XboxController driver;
     public static XboxController operator;
 
-
+    //File for controlling the robot in teleop
     public OI(){
         try {
             driver = new XboxController(0);
