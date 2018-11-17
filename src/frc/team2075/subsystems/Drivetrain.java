@@ -29,7 +29,9 @@ private PigeonIMU gyro = RobotMap.pigeonIMU;
         setDefaultCommand(new TeleopDrive());
     }
     public void cheezyDrive(double throttle, double turn){
-        DriveSignal driveSignal = cheesyDriveHelper.cheesyDrive(throttle, turn, false);
+        boolean quickTurn = false;
+        if(throttle ==0) quickTurn = true;
+        DriveSignal driveSignal = cheesyDriveHelper.cheesyDrive(throttle, turn, quickTurn);
         motorL.set(ControlMode.PercentOutput, driveSignal.leftMotor);
         motorR.set(ControlMode.PercentOutput, driveSignal.rightMotor);
     }

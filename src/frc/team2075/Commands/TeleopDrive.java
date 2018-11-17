@@ -7,6 +7,7 @@ import frc.team2075.Robot;
 
 public class TeleopDrive extends Command {
     private XboxController controller = new XboxController(0);
+    private final double deadzone = 0.2;
     public TeleopDrive() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -32,7 +33,7 @@ public class TeleopDrive extends Command {
     protected void execute() {
         double throttle = -controller.getRawAxis(1);
         double turn = controller.getRawAxis(4);
-        Robot.drivetrain.cheezyDrive(throttle,turn);
+        Robot.drivetrain.cheezyDrive(applyDeadzone(throttle, deadzone),applyDeadzone(turn, deadzone));
     }
 
 
@@ -69,6 +70,15 @@ public class TeleopDrive extends Command {
     @Override
     protected void end() {
 
+    }
+
+    public double applyDeadzone(double input, double deadzone){
+        if (Math.abs(input) < Math.abs(deadzone)){
+            return 0;
+        }
+        else{
+            return input;
+        }
     }
 
 
