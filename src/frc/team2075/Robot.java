@@ -9,7 +9,9 @@ package frc.team2075;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.team2075.Commands.AutoDrive;
 import frc.team2075.subsystems.Drivetrain;
 
 /**
@@ -59,7 +61,8 @@ public class Robot extends TimedRobot
 
     @Override
     public void autonomousInit() {
-
+        Command auto = new AutoDrive();
+        auto.start();
     }
 
     /**

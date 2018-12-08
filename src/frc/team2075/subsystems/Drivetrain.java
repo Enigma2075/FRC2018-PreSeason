@@ -33,5 +33,20 @@ private PigeonIMU gyro = RobotMap.pigeonIMU;
         motorL.set(ControlMode.PercentOutput, driveSignal.leftMotor);
         motorR.set(ControlMode.PercentOutput, driveSignal.rightMotor);
     }
+    public void driveTwo(int distance)
+    {
+        motorL.selectProfileSlot(0,0);
+        motorR.selectProfileSlot(0,0);
+        motorL.set(ControlMode.MotionMagic, calculateCount(distance));
+        motorR.set(ControlMode.MotionMagic, calculateCount(distance));
+    }
+
+    public double calculateCount(double distance)
+    {
+        double output = 6.25*Math.PI;
+        output = (output/distance)*1023;
+        return output;
+    }
 }
+
 

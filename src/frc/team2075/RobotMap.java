@@ -130,5 +130,10 @@ public class RobotMap
         drivetrainTalonLeftFront.getSensorCollection().setQuadraturePosition(0,0);
         drivetrainTalonRightFront.getSensorCollection().setQuadraturePosition(0,0);
 
+        drivetrainTalonLeftFront.config_kP(0,5.8456);
+        drivetrainTalonLeftFront.config_kD (0,0);
+        drivetrainTalonLeftFront.config_kF(0,1.1366666);
+
+
     }
 }
