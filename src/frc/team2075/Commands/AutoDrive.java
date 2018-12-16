@@ -20,7 +20,7 @@ public class AutoDrive extends Command {
      */
     @Override
     protected void initialize() {
-
+        Robot.drivetrain.driveTwo(24);
     }
 
 
@@ -31,7 +31,6 @@ public class AutoDrive extends Command {
     @Override
     protected void execute() {
 
-        Robot.drivetrain.driveTwo(24);
     }
 
 

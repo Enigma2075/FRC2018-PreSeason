@@ -37,8 +37,10 @@ private PigeonIMU gyro = RobotMap.pigeonIMU;
     {
         motorL.selectProfileSlot(0,0);
         motorR.selectProfileSlot(0,0);
-        motorL.set(ControlMode.MotionMagic, calculateCount(distance));
-        motorR.set(ControlMode.MotionMagic, calculateCount(distance));
+        double totalDistanceL = calculateCount(distance)+motorL.getSelectedSensorPosition();
+        double totalDistanceR = calculateCount(distance) + motorR.getSelectedSensorPosition();
+        motorL.set(ControlMode.MotionMagic, totalDistanceL);
+        motorR.set(ControlMode.MotionMagic, totalDistanceR);
     }
 
     public double calculateCount(double distance)
