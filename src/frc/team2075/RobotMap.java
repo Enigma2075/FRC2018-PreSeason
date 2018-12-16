@@ -30,9 +30,6 @@ public class RobotMap
     public static TalonSRX drivetrainTalonLeftRear;
     public static TalonSRX drivetrainTalonRightFront;
     public static TalonSRX drivetrainTalonRightRear;
-    //Drivetrain double solenoid declaration
-    public static DoubleSolenoid drivetrainDoubleSolenoidRightShift;
-    public static DoubleSolenoid drivetrainDoubleSolenoidLeftShift;
     //Drivetrain Gyro declaration
     public static PigeonIMU pigeonIMU;
 
