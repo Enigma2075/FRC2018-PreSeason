@@ -78,7 +78,15 @@ public class RobotMap
         drivetrainTalonLeft.setSensorPhase(true);
         drivetrainTalonRight.setSensorPhase(true);
 
+        drivetrainTalonRight.configPeakCurrentLimit(50);
+        drivetrainTalonLeft.configPeakCurrentLimit(50);
+        drivetrainTalonRight.configPeakCurrentDuration(50);
+        drivetrainTalonLeft.configPeakCurrentDuration(50);
+        drivetrainTalonRight.configContinuousCurrentLimit(40);
+        drivetrainTalonLeft.configContinuousCurrentLimit(40);
 
+        drivetrainTalonRight.configOpenloopRamp(.050);
+        drivetrainTalonLeft.configOpenloopRamp(.050);
 
     }
 }
