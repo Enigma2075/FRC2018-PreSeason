@@ -1,55 +1,51 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
 
 package frc.team2075;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.team2075.Subsystems.Drivetrain;
 
-/**
- * The VM is configured to automatically run this class, and to call the
- * functions corresponding to each mode, as described in the TimedRobot
- * documentation. If you change the name of this class or the package after
- * creating this project, you must also update the build.properties file in the
- * project.
- */
-// If you rename or move this class, update the build.properties file in the project root
+
 public class Robot extends TimedRobot
 {
-
+    /** Subsystem Declaration */
     public static OI oi;
     public static Drivetrain drivetrain;
     public static Compressor compressor;
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
+    public static Dashboard dashboard;
+
+    /**Code run on robot startup*/
     @Override
     public void robotInit() {
+        //Initializes Electronics in the RobotMap
         RobotMap.init();
+
+        //Defines and sets up the compressor to not overflow
         compressor = new Compressor(3);
         compressor.setClosedLoopControl(true);
+
+        //Defines all of the Subsystems
         drivetrain = new Drivetrain();
 
+        //Sets up the Smart Dashboard
+        dashboard = new Dashboard();
+        //Defines the Operator Interface so the robot can respond to inputs
         oi = new OI();
     }
 
-    /**
-     * This function is called once each time the robot enters Disabled mode.
-     * You can use it to reset any subsystem information you want to clear when
-     * the robot is disabled.
-     */
+    /**Code run continuously while robot is powered up*/
+    @Override
+    public void robotPeriodic(){
+
+    }
+
+    /**Code run when you disable the robot*/
     @Override
     public void disabledInit() {
         
     }
 
+    /**Code run repeatedly when the robot is disabled*/
     @Override
     public void disabledPeriodic() 
     {
@@ -57,39 +53,32 @@ public class Robot extends TimedRobot
     }
 
 
+    /**Code Run when autonomous is started*/
     @Override
     public void autonomousInit() {
 
     }
 
-    /**
-     * This function is called periodically during autonomous.
-     */
+
+    /**Code run repeatedly while autonomous is running*/
     @Override
     public void autonomousPeriodic() 
     {
         Scheduler.getInstance().run();
     }
 
+    /**Code run when Tele-Op is started*/
     @Override
     public void teleopInit() {
 
     }
 
-    /**
-     * This function is called periodically during operator control.
-     */
+
+    /**Code run repeatedly when Tele-Op is running*/
     @Override
     public void teleopPeriodic() 
     {
         Scheduler.getInstance().run();
     }
 
-    /**
-     * This function is called periodically during test mode.
-     */
-    @Override
-    public void testPeriodic() {
-        
-    }
 }

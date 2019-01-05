@@ -7,10 +7,7 @@
 
 package frc.team2075;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -49,6 +46,7 @@ public class RobotMap
         drivetrainVictorRightFront = new VictorSPX (8);
         drivetrainVictorRightRear = new VictorSPX (9);
 
+        //Sets up all of the motors to brake when no power is put to them
         drivetrainTalonRight.setNeutralMode(NeutralMode.Brake);
         drivetrainTalonLeft.setNeutralMode(NeutralMode.Brake);
         drivetrainVictorRightRear.setNeutralMode(NeutralMode.Brake);
@@ -56,6 +54,7 @@ public class RobotMap
         drivetrainVictorLeftFront.setNeutralMode(NeutralMode.Brake);
         drivetrainVictorLeftRear.setNeutralMode(NeutralMode.Brake);
 
+        //Flips some of the motors so they will all go the right direction
         drivetrainVictorLeftFront.setInverted(false);
         drivetrainTalonRight.setInverted(true);
         drivetrainVictorRightRear.setInverted(true);
@@ -72,12 +71,11 @@ public class RobotMap
         drivetrainTalonLeft.set(ControlMode.PercentOutput, 0);
         drivetrainTalonRight.set(ControlMode.PercentOutput, 0);
 
-        drivetrainTalonLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-        drivetrainTalonRight.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
-
+        //flips the sensors direction
         drivetrainTalonLeft.setSensorPhase(true);
         drivetrainTalonRight.setSensorPhase(true);
 
+        //Sets up a current limit to prevent brownouts
         drivetrainTalonRight.configPeakCurrentLimit(50);
         drivetrainTalonLeft.configPeakCurrentLimit(50);
         drivetrainTalonRight.configPeakCurrentDuration(50);
@@ -85,8 +83,58 @@ public class RobotMap
         drivetrainTalonRight.configContinuousCurrentLimit(40);
         drivetrainTalonLeft.configContinuousCurrentLimit(40);
 
+        //Enables the current limit
+        drivetrainTalonRight.enableCurrentLimit(true);
+        drivetrainTalonLeft.enableCurrentLimit(true);
+
+        //Sets up a ramp rate to prevent brownouts
         drivetrainTalonRight.configOpenloopRamp(.050);
         drivetrainTalonLeft.configOpenloopRamp(.050);
+        drivetrainTalonLeft.configClosedloopRamp(.050);
+        drivetrainTalonRight.configClosedloopRamp(.050);
 
+        //Sets up the left talon to use its own encoder
+        drivetrainTalonLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+
+        //Sets up the left mag encoder as  remote sensor 0 for the right talon
+        drivetrainTalonRight.configRemoteFeedbackFilter(5, RemoteSensorSource.TalonSRX_SelectedSensor, 0);
+
+        //Sets up the pigeon as remote sensor 1 for the right talon
+        drivetrainTalonRight.configRemoteFeedbackFilter(0,RemoteSensorSource.Pigeon_Yaw,1);
+
+        //configures the feedback device SensorSum to be equal to the sum of remote sensor zero(left mag encoder) and the right mag encoder
+        drivetrainTalonRight.configSensorTerm(SensorTerm.Sum0, FeedbackDevice.RemoteSensor0, 10);
+        drivetrainTalonRight.configSensorTerm(SensorTerm.Sum1, FeedbackDevice.CTRE_MagEncoder_Relative, 10);
+
+        //Sets up the SensorSum as the selected feedback sensor for the right talon PID index 0
+        drivetrainTalonRight.configSelectedFeedbackSensor(FeedbackDevice.SensorSum,0,10);
+
+        //Sets up the Pigeon as the selected feedback sensor for the right talon PID index 1
+        drivetrainTalonRight.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor1,1,10);
+
+        //Sets up the feedback sensor to take the average of the two mag encoders
+        drivetrainTalonRight.configSelectedFeedbackCoefficient(.5,0,10);
+
+        //Sets up the correct ratio for degrees for the pigeon
+        drivetrainTalonRight.configSelectedFeedbackCoefficient(3600.0/8192.0,1,10);
+
+        //Configures the PIDF values for the position loop
+        drivetrainTalonRight.config_kF(0,0);
+        drivetrainTalonRight.config_kP(0,0);
+        drivetrainTalonRight.config_kI(0,0);
+        drivetrainTalonRight.config_kD(0,0);
+
+
+        //Configures the PIDF values for the motion profile turning loop
+        drivetrainTalonRight.config_kF(1,0);
+        drivetrainTalonRight.config_kP(1,0);
+        drivetrainTalonRight.config_kI(1,0);
+        drivetrainTalonRight.config_kD(1,0);
+
+        //Configures the PIDF values for the position turning loop
+        drivetrainTalonRight.config_kF(2,0);
+        drivetrainTalonRight.config_kP(2,0);
+        drivetrainTalonRight.config_kI(2,0);
+        drivetrainTalonRight.config_kD(2,0);
     }
 }
