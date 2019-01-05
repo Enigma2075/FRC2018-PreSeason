@@ -4,7 +4,6 @@ package frc.team2075;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.team2075.Subsystems.Drivetrain;
 
 
 public class Robot extends TimedRobot
