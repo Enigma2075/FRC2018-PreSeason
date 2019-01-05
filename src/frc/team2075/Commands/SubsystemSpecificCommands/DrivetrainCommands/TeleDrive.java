@@ -50,7 +50,6 @@ public class TeleDrive extends Command {
 
             //checks to see if the robot should be running in slow mode and if so limits the max power to 65%
             Robot.drivetrain.cheesyDrive((-yLeftValue), (xRightValue), false);
-            SmartDashboard.putNumber("Drivetrain Velocity",Robot.drivetrain.getVelocity());
         }
     }
 
