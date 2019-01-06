@@ -45,6 +45,7 @@ public class RobotMap
         drivetrainVictorLeftRear = new VictorSPX (7);
         drivetrainVictorRightFront = new VictorSPX (8);
         drivetrainVictorRightRear = new VictorSPX (9);
+        pigeonIMU = new PigeonIMU(drivetrainTalonLeft);
 
         //Sets up all of the motors to brake when no power is put to them
         drivetrainTalonRight.setNeutralMode(NeutralMode.Brake);
@@ -93,14 +94,23 @@ public class RobotMap
         drivetrainTalonLeft.configClosedloopRamp(.050);
         drivetrainTalonRight.configClosedloopRamp(.050);
 
-        //Sets up the left talon to use its own encoder
+        drivetrainTalonRight.configRemoteFeedbackFilter(5,RemoteSensorSource.GadgeteerPigeon_Yaw,0);
+        drivetrainTalonRight.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0,0,10);
+        drivetrainTalonRight.configSelectedFeedbackCoefficient(360.0/8192.0,0,10);
+        drivetrainTalonRight.setSensorPhase(true);
+
+        drivetrainTalonLeft.configRemoteFeedbackFilter(4,RemoteSensorSource.TalonSRX_SelectedSensor,0);
+        drivetrainTalonLeft.configSelectedFeedbackSensor(FeedbackDevice.RemoteSensor0,0,10);
+        //drivetrainTalonLeft.configSelectedFeedbackCoefficient(360.0/8192.0,0,10);
+
+       /* //Sets up the left talon to use its own encoder
         drivetrainTalonLeft.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
 
         //Sets up the left mag encoder as  remote sensor 0 for the right talon
         drivetrainTalonRight.configRemoteFeedbackFilter(5, RemoteSensorSource.TalonSRX_SelectedSensor, 0);
 
         //Sets up the pigeon as remote sensor 1 for the right talon
-        drivetrainTalonRight.configRemoteFeedbackFilter(0,RemoteSensorSource.Pigeon_Yaw,1);
+        drivetrainTalonRight.configRemoteFeedbackFilter(4,RemoteSensorSource.GadgeteerPigeon_Yaw,1);
 
         //configures the feedback device SensorSum to be equal to the sum of remote sensor zero(left mag encoder) and the right mag encoder
         drivetrainTalonRight.configSensorTerm(SensorTerm.Sum0, FeedbackDevice.RemoteSensor0, 10);
@@ -116,8 +126,7 @@ public class RobotMap
         drivetrainTalonRight.configSelectedFeedbackCoefficient(.5,0,10);
 
         //Sets up the correct ratio for degrees for the pigeon
-        drivetrainTalonRight.configSelectedFeedbackCoefficient(3600.0/8192.0,1,10);
-
+*/
         //Configures the PIDF values for the position loop
         drivetrainTalonRight.config_kF(0,0);
         drivetrainTalonRight.config_kP(0,0);
@@ -133,8 +142,13 @@ public class RobotMap
 
         //Configures the PIDF values for the position turning loop
         drivetrainTalonRight.config_kF(2,0);
-        drivetrainTalonRight.config_kP(2,0);
+        drivetrainTalonRight.config_kP(2,10);
         drivetrainTalonRight.config_kI(2,0);
         drivetrainTalonRight.config_kD(2,0);
+
+        drivetrainTalonLeft.config_kF(2,0);
+        drivetrainTalonLeft.config_kP(2,-10);
+        drivetrainTalonLeft.config_kI(2,0);
+        drivetrainTalonLeft.config_kD(2,0);
     }
 }

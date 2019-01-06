@@ -3,7 +3,10 @@ package frc.team2075;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import frc.team2075.Commands.TurnAbsolute;
+import frc.team2075.Subsystems.Drivetrain;
 
 
 public class Robot extends TimedRobot
@@ -36,7 +39,7 @@ public class Robot extends TimedRobot
     /**Code run continuously while robot is powered up*/
     @Override
     public void robotPeriodic(){
-
+        dashboard.updateDashboard();
     }
 
     /**Code run when you disable the robot*/
@@ -56,7 +59,8 @@ public class Robot extends TimedRobot
     /**Code Run when autonomous is started*/
     @Override
     public void autonomousInit() {
-
+        Command auto = new TurnAbsolute(90);
+        auto.start();
     }
 
 

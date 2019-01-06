@@ -1,5 +1,4 @@
-package frc.team2075.Commands.DrivetrainCommands;
-
+package frc.team2075.Commands;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -93,3 +92,4 @@ public class TeleDrive extends Command {
     }
 
 }
+

@@ -1,16 +1,16 @@
 package frc.team2075.Subsystems;
 
 
-import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.team2075.Commands.DrivetrainCommands.TeleDrive;
 import frc.team2075.ExternalClasses.CheesyDriveHelper;
 import frc.team2075.ExternalClasses.DriveSignal;
-import frc.team2075.Robot;
 import frc.team2075.RobotMap;
+import frc.team2075.Commands.TeleDrive;
 
 public class Drivetrain extends Subsystem {
 
@@ -65,6 +65,19 @@ public class Drivetrain extends Subsystem {
         turnTo(degrees+getHeading());
     }
 
+    /**@param degrees to turn relative to your starting position*/
+    public void turnTo(double degrees){
+        talonRight.selectProfileSlot(2,0);
+        talonLeft.selectProfileSlot(2,0);
+        talonRight.set(ControlMode.Position,(degrees+360)%360);
+
+    }
+
+    /**Stops the robot by setting power output to zero*/
+    public void stop() {
+        talonLeft.set(ControlMode.PercentOutput, 0);
+        talonRight.set(ControlMode.PercentOutput, 0);
+    }
     /***/
    /* public BufferedTrajectoryPointStream  injectProfileBuffer(double[][] profile){
         TrajectoryPoint point = new TrajectoryPoint();
@@ -78,18 +91,6 @@ public class Drivetrain extends Subsystem {
         }
         talonRight.motionProfile
     }*/
-    /**@param degrees to turn relative to your starting position*/
-    public void turnTo(double degrees){
-        talonRight.selectProfileSlot(2,0);
-        talonRight.set(ControlMode.Position,(degrees+360)%360);
-    }
-
-    /**Stops the robot by setting power output to zero*/
-    public void stop() {
-        talonLeft.set(ControlMode.PercentOutput, 0);
-        talonRight.set(ControlMode.PercentOutput, 0);
-    }
-
     /**Resets the mag encoders to 0*/
     public void resetEncoders(){
         talonRight.selectProfileSlot(0,0);
@@ -121,10 +122,27 @@ public class Drivetrain extends Subsystem {
 
     /**@return heading of the pigeon*/
     public double getHeading(){
-        return pigeon.getFusedHeading();
+        double[] ypr = new double[3];
+        pigeon.getYawPitchRoll(ypr);
+        return ypr[0];
     }
 
+    public double getSelectedFeedbackPosition(){
+        return talonRight.getSelectedSensorPosition(0);
+    }
+    /**@param PIDIdx which pid index we look at 0= primary, 1 = aux
+     * @return the closed loop error on the specified loop*/
+    public double getClosedLoopError(int PIDIdx){
+        return talonRight.getClosedLoopError(PIDIdx);
+    }
 
+    public double getLeftClosedLoopError(int PIDIdx) {
+        return talonLeft.getClosedLoopError(PIDIdx);
+    }
+
+    public double getLeftSelectedFeedbackSensor(){
+        return talonLeft.getSelectedSensorPosition(0);
+    }
 
     /**Selects TeleDrive as the default command to run when the subsystem doesn't have any other commands*/
     public void initDefaultCommand() {
